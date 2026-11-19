@@ -51,8 +51,9 @@ fi
 
 echo "KiCAD will be re-signed" 1>&2
 codesign -fs "$CERTIFICATE" "$KICAD_PYTHON/Resources/Python.app"
-codesign -fs "$CERTIFICATE" "/Applications/KiCad/KiCad.app"
 codesign -fs "$CERTIFICATE" "/Applications/KiCad/KiCad.app/Contents/Applications/pcbnew.app"
+# Sign the outer bundle last; re-signing nested code afterwards invalidates its seal
+codesign -fs "$CERTIFICATE" "/Applications/KiCad/KiCad.app"
 
 mkdir -p /usr/local/bin
 
